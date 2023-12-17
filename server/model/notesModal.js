@@ -7,11 +7,11 @@ const notesSchema = new mongoose.Schema({
   },
   createdBy: {
     type: String,
-    required: true,
+   
   },
   createdAt: {
     type: Date,
-    required: true,
+    
   },
 });
 

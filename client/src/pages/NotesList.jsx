@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+// NotesList.js
+
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Stack from 'react-bootstrap/Stack';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { IoMdCreate, IoMdTrash } from 'react-icons/io';
 import axios from 'axios';
-import { setNotes, selectNotes } from '../redux/notesSlice';
+import { setNotes, selectNotes, selectCurrentNote,setCurrentNote } from '../redux/notesSlice';
+import EditModal from '../components/EditModal'; 
 
 const NotesList = () => {
   const dispatch = useDispatch();
   const userNotes = useSelector(selectNotes);
+  const currentNote = useSelector(selectCurrentNote); 
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -24,7 +29,6 @@ const NotesList = () => {
           }
         );
         dispatch(setNotes(response.data.notes));
-        console.log(response.data);
       } catch (error) {
         console.error('Error fetching user notes:', error);
       }
@@ -33,19 +37,35 @@ const NotesList = () => {
     fetchNotes();
   }, [dispatch]);
 
-  const handleEdit = (noteId) => {
-    console.log('Edit note with ID:', noteId);
+  const handleEdit = async (noteId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/getnote/${noteId}`,
+        {
+          headers: {
+            'x-auth-token': localStorage.getItem('token'),
+          },
+        }
+      );
+      dispatch(setCurrentNote(response.data.note)); // Use setCurrentNote to dispatch the action
+      setShowEditModal(true);
+    } catch (error) {
+      console.error('Error fetching note by ID:', error);
+    }
   };
+  
 
-  const handleDelete = (noteId) => {
-    console.log('Delete note with ID:', noteId);
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
   };
+const handleDelete =()=>{
 
+}
   return (
     <Stack>
       <h2>Your Notes</h2>
       <ListGroup>
-        {userNotes.map((note) => (
+        {userNotes?.map((note) => (
           <Card key={note._id} className='mb-3'>
             <Card.Body>
               <Card.Title>{note.note}</Card.Title>
@@ -67,6 +87,8 @@ const NotesList = () => {
           </Card>
         ))}
       </ListGroup>
+      {/* Render the EditModal */}
+      <EditModal show={showEditModal} handleClose={handleCloseEditModal} currentNote={currentNote} />
     </Stack>
   );
 };

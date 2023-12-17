@@ -1,7 +1,7 @@
-let User = require('../model/userModel');
+const User = require('../model/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const{ fetchUserNotes} = require('./notesController');
+const { fetchUserNotes } = require('./notesController');
 
 module.exports.register = async function (req, res) {
   try {
@@ -18,7 +18,7 @@ module.exports.register = async function (req, res) {
     };
     user = await User.create(newUser);
     return res.status(200).json({
-      message: 'User Succesfully Registered',
+      message: 'User Successfully Registered',
     });
   } catch (error) {
     res.status(500).json({
@@ -36,7 +36,7 @@ module.exports.createSession = async function (req, res) {
     }
     const passwordMatch = await bcrypt.compare(password, existingUser.password);
     if (passwordMatch) {
-      const token = jwt.sign({ userId: user.id }, 'notesApp', { expiresIn: '1h' });
+      const token = jwt.sign({ userId: existingUser.id }, 'notesApp', { expiresIn: '1h' });
       const { _id, fullName, email } = existingUser;
       const userNotes = await fetchUserNotes(_id);
       res.status(200).json({
