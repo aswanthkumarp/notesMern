@@ -10,13 +10,13 @@ const ModalComponent = ({ show, handleClose }) => {
   const [note, setNote] = useState();
   const authUser = useSelector(userAuthDetails);
   const fullName = authUser.fullName;
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
   const handleSave = async (e) => {
     e.preventDefault();
     try {
       console.log('token:', token);
       const response = await axios.post(
-        'http://localhost:8000/api/savenotes',
+        'https://serverofnotesapp.onrender.com/api/savenotes',
         {
           note,
           fullName,

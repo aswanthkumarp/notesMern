@@ -13,7 +13,7 @@ const notesSlice = createSlice({
       state.notes = action.payload;
     },
     setCurrentNote: (state, action) => {
-      state.currentNote = action.payload; 
+      state.currentNote = action.payload;
     },
     updateNote: (state, action) => {
       const { id, note } = action.payload;
@@ -25,17 +25,17 @@ const notesSlice = createSlice({
   },
 });
 
-
-
-
 export const fetchNoteById = (noteId) => async (dispatch) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`http://localhost:8000/api/getnote/${noteId}`, {
-      headers: {
-        'x-auth-token': token,
-      },
-    });
+    const response = await axios.get(
+      `https://serverofnotesapp.onrender.com/api/getnote/${noteId}`,
+      {
+        headers: {
+          'x-auth-token': token,
+        },
+      }
+    );
     dispatch(setCurrentNote(response.data.note));
   } catch (error) {
     console.error('Error fetching note by ID:', error);

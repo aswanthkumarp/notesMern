@@ -30,7 +30,7 @@ const EditModal = ({ show, handleClose, currentNote }) => {
       const token = localStorage.getItem('token');
       console.log(currentNote._id, 'id of note');
       const response = await axios.put(
-        `http://localhost:8000/api/updatenote/${currentNote._id}`,
+        `https://serverofnotesapp.onrender.com/api/updatenote/${currentNote._id}`,
         { note: updatedNote },
         {
           headers: {

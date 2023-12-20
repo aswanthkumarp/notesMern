@@ -26,7 +26,7 @@ const NotesList = () => {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(
-          'http://localhost:8000/api/listnotes',
+          'https://serverofnotesapp.onrender.com/api/listnotes',
           {
             headers: {
               'x-auth-token': token,
@@ -45,7 +45,7 @@ const NotesList = () => {
   const handleEdit = async (noteId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/getnote/${noteId}`,
+        `https://serverofnotesapp.onrender.com/api/getnote/${noteId}`,
         {
           headers: {
             'x-auth-token': localStorage.getItem('token'),
@@ -65,16 +65,22 @@ const NotesList = () => {
   const handleDelete = async (noteId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:8000/api/deletenote/${noteId}`, {
-        headers: {
-          'x-auth-token': token,
-        },
-      });
-      const response = await axios.get('http://localhost:8000/api/listnotes', {
-        headers: {
-          'x-auth-token': token,
-        },
-      });
+      await axios.delete(
+        `https://serverofnotesapp.onrender.com/api/deletenote/${noteId}`,
+        {
+          headers: {
+            'x-auth-token': token,
+          },
+        }
+      );
+      const response = await axios.get(
+        'https://serverofnotesapp.onrender.com/api/listnotes',
+        {
+          headers: {
+            'x-auth-token': token,
+          },
+        }
+      );
       dispatch(setNotes(response.data.notes));
     } catch (error) {
       console.error('Error deleting note:', error);

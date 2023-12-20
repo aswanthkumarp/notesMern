@@ -23,10 +23,13 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/login', {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        'https://serverofnotesapp.onrender.com/api/login',
+        {
+          email,
+          password,
+        }
+      );
 
       console.log('Response:', response);
 

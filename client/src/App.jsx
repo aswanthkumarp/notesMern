@@ -8,6 +8,7 @@ import { selectAuthState } from './redux/AuthSlice';
 import NavbarComponent from './components/Navbar';
 import NotesList from './pages/NotesList';
 import { jwtDecode } from 'jwt-decode';
+import WelcomePage from './pages/WelcomePage';
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useSelector(selectAuthState);
@@ -30,6 +31,7 @@ function App() {
     <>
       <NavbarComponent />
       <Routes>
+        <Route index element={<WelcomePage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SignupPage />} />
         <Route

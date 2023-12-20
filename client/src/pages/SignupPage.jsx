@@ -5,7 +5,6 @@ import Container from 'react-bootstrap/Container';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import { selectAuthState } from '../redux/AuthSlice';
 
 const SignupPage = () => {
@@ -43,13 +42,18 @@ const SignupPage = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/api/register', {
-        fullName,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        'https://serverofnotesapp.onrender.com/api/register',
+        {
+          fullName,
+          email,
+          password,
+        }
+      );
       console.log('signup successfull', response.data);
+      navigate('/login')
       setIsFormValid(true);
+      navigate('/login')
     } catch (error) {
       console.error('Signup error:', error);
     }
